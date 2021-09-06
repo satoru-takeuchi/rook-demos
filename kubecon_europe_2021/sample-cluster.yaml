@@ -1,0 +1,37 @@
+apiVersion: ceph.rook.io/v1
+kind: CephCluster
+metadata:
+  name: rook-ceph
+  namespace: rook-ceph
+spec:
+  dataDirHostPath: /var/lib/rook
+  mon:
+    count: 1
+    allowMultiplePerNode: false
+  cephVersion:
+    image: ceph/ceph:v15.2.9
+    allowUnsupported: false
+  skipUpgradeChecks: false
+  continueUpgradeAfterChecksEvenIfNotHealthy: false
+  dashboard:
+    enabled: false
+    ssl: true
+  network:
+    hostNetwork: false
+  crashCollector:
+    disable: true
+  storage:
+    storageClassDeviceSets:
+    - name: set1
+      count: 1
+      volumeClaimTemplates:
+      - metadata:
+          name: data
+        spec:
+          resources:
+            requests:
+              storage: 5Gi
+          storageClassName: local
+          volumeMode: Block
+          accessModes:
+            - ReadWriteOnce
