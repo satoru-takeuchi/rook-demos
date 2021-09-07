@@ -4,11 +4,11 @@ export KUBECONFIG=$HOME/admin.conf
 
 kubectl delete -f cluster-on-pvc.yaml
 
-for i in operator common crds ; do
+for i in operator common crds; do
   kubectl delete -f ${i}.yaml
 done
 
-kubectl delete -f local-pvs.yaml
+kubectl delete -f local.yaml
 
 sudo rm -rf /var/lib/rook
 
